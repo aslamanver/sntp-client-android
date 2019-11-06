@@ -28,3 +28,9 @@ SNTPClient.getDate(TimeZone.getTimeZone("Asia/Colombo"), new SNTPClient.Listener
 ```java
 Calendar.getInstance().getTimeZone();
 ```
+
+* The output time is formatted according to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format.
+> yyyy-MM-dd'T'HH:mm:ssZ
+
+* Time server host is Google
+> time.google.com
