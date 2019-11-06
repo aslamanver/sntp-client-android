@@ -1,7 +1,7 @@
 ### SNTPClient for Android
 Simple SNTP client class for retrieving network time on Android (SNTPClient)
 
-<img width="200" src="https://i.imgur.com/y9AODqW.png" />
+<img width="250" src="https://i.imgur.com/y9AODqW.png" />
 
 #### Copy-Paste
 Copy the `SNTPClient.java` into your project, there you go. It's ready.
