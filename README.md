@@ -8,7 +8,7 @@ Copy the `SNTPClient.java` into your project, there you go. It's ready.
 
 #### Usage
 
-1. Retrive the time of a specific time zone.
+1. Retrieve the time of a specific time zone.
 
 ```java
 SNTPClient.getDate(TimeZone.getTimeZone("Asia/Colombo"), new SNTPClient.Listener() {
