@@ -1,6 +1,9 @@
 ### SNTPClient for Android
 Simple SNTP client class for retrieving network time on Android (SNTPClient)
 
+#### Copy-Paste
+Copy the `SNTPClient.java` into your project, there you go. It's ready.
+
 #### Usage
 
 1. Retrive the time of a specific time zone.
