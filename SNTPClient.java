@@ -1,5 +1,3 @@
-package com.util;
-
 /*
  * Original work Copyright (C) 2008 The Android Open Source Project
  * Modified work Copyright (C) 2019, Aslam Anver
