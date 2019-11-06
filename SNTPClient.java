@@ -40,7 +40,6 @@ public class SNTPClient {
 
     public interface Listener {
         void onTimeReceived(String rawDate);
-
         void onError(Exception ex);
     }
 
@@ -246,7 +245,7 @@ public class SNTPClient {
                     sdf.setTimeZone(_timeZone);
                     String rawDate = sdf.format(nowAsPerDeviceTimeZone);
 
-                    Log.e(TAG, _timeZone.getID());
+                    // Log.e(TAG, _timeZone.getID());
 
                     _listener.onTimeReceived(rawDate);
                 }
