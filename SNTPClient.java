@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
-import android.util.Log;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -39,11 +43,11 @@ import java.util.TimeZone;
 public class SNTPClient {
 
     public interface Listener {
-        void onTimeReceived(String rawDate);
-        void onError(Exception ex);
+        void onTimeResponse(String rawDate, Date date, Exception ex);
     }
 
-    public static final String TAG = "SntpClient";
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
 
     private static final int REFERENCE_TIME_OFFSET = 16;
     private static final int ORIGINATE_TIME_OFFSET = 24;
@@ -137,8 +141,12 @@ public class SNTPClient {
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
         } catch (Exception e) {
-            if (false) Log.d(TAG, "request time failed: " + e);
-            listener.onError(e);
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onTimeResponse(null, null, e);
+                }
+            });
             return false;
         } finally {
             if (socket != null) {
@@ -231,25 +239,23 @@ public class SNTPClient {
 
     public static void getDate(TimeZone _timeZone, Listener _listener) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                SNTPClient sntpClient = new SNTPClient(_listener);
+            SNTPClient sntpClient = new SNTPClient(_listener);
 
-                if (sntpClient.requestTime("time.google.com", 5000)) {
+            if (sntpClient.requestTime("time.google.com", 5000)) {
 
-                    long nowAsPerDeviceTimeZone = sntpClient.getNtpTime();
+                long nowAsPerDeviceTimeZone = sntpClient.getNtpTime();
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-                    sdf.setTimeZone(_timeZone);
-                    String rawDate = sdf.format(nowAsPerDeviceTimeZone);
+                SIMPLE_DATE_FORMAT.setTimeZone(_timeZone);
+                String rawDate = SIMPLE_DATE_FORMAT.format(nowAsPerDeviceTimeZone);
 
-                    // Log.e(TAG, _timeZone.getID());
-
-                    _listener.onTimeReceived(rawDate);
+                try {
+                    Date date = SIMPLE_DATE_FORMAT.parse(rawDate);
+                    new Handler(Looper.getMainLooper()).post(() -> _listener.onTimeResponse(rawDate, date, null));
+                } catch (ParseException e) {
+                    new Handler(Looper.getMainLooper()).post(() -> _listener.onTimeResponse(null, null, e));
                 }
-
             }
         }).start();
     }
