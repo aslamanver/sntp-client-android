@@ -12,15 +12,10 @@ Copy the `SNTPClient.java` into your project, there you go. It's ready.
 
 ```java
 SNTPClient.getDate(TimeZone.getTimeZone("Asia/Colombo"), new SNTPClient.Listener() {
-    @Override
-    public void onTimeReceived(String rawDate) {
-        // rawDate -> 2019-11-05T17:51:01+0530
-        Log.e(SNTPClient.TAG, rawDate);
-    }
 
     @Override
-    public void onError(Exception ex) {
-        Log.e(SNTPClient.TAG, ex.getMessage());
+    public void onTimeResponse(String rawDate, Date date, Exception ex) {
+
     }
 });
 ```
