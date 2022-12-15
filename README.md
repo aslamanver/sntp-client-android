@@ -1,5 +1,5 @@
 ### SNTPClient for Android
-Simple SNTP client class for retrieving network time on Android (SNTPClient)
+Simple SNTP Client class for retrieving network time on Android (SNTPClient)
 
 <img width="250" src="https://i.imgur.com/y9AODqW.png" />
 
