@@ -21,7 +21,7 @@ SNTPClient.getDate(TimeZone.getTimeZone("Asia/Colombo"), new SNTPClient.Listener
 ```
 <hr>
 
-2. Current time zone can be passed to retrive current time of the device zone.
+2. Current time zone can be passed to retrieve the current time of the device zone.
 ```java
 Calendar.getInstance().getTimeZone();
 ```
